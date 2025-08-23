@@ -3,6 +3,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import authRoute from './routes/authRoutes.js';
+import todoRoute from './routes/todoRoutes.js';
 
 // GET the file path from the URL of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +18,11 @@ app.use(express.json());
 // and also serves all the static files in the /public dir. Any requests for the CSS files will be resolve to the /public dir
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Serving the HTLM file from the Public dir
+
+app.use('/auth', authRoute);
+app.use('/todos', todoRoute);
+
+// Serving the HTLM file from the Public dir 
 app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
